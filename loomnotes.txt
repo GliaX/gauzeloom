@@ -2,3 +2,6 @@ loom notes
 
 Horizontal holes are too wide, vertical holes are too narrow - fixed in .scad file.
 
+Need to tension incoming yarn somehow so it's not pulled by the shuttle horizontally - or make shuttle smoother
+Possible option - change shuttle shape and route yarn through a serpentine tensioner
+
