@@ -1,0 +1,4 @@
+loom notes
+
+Horizontal holes are too wide, vertical holes are too narrow - fixed in .scad file.
+
