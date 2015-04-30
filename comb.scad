@@ -1,11 +1,11 @@
 module comb(){union(){
 
-for(i=[0:19])translate([0,20*2.5-i*5-1.8])difference(){
-translate([-1,0,0])cube([53,2.9,5],true);
-translate([-20,0.25,0])scale([2,1,1]){
-translate([-0.44,0,0])scale([2.0,0.55,1])cylinder(r=1,$fn=30,h=6,center=true);
-translate([-.6,0.8,0])mirror([1,0,0])cube([0.4,0.9,6],center=true);
-}
+	for(i=[0:19])translate([0,20*2.5-i*5-1.8])difference(){
+		translate([-1,0,0])cube([53,2.9,5],true);
+		translate([-20,0.25,0])scale([2,1,1]){
+		translate([-0.44,0,0])scale([2.0,0.55,1])cylinder(r=1,$fn=30,h=6,center=true);
+		translate([-.6,0.8,0])mirror([1,0,0])cube([0.4,0.9,6],center=true);
+	}
 }
 
 difference(){
