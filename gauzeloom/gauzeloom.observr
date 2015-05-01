@@ -1,0 +1,13 @@
+
+system("./gauzeloom.rb")
+watch( 'gauzeloom.rb' )  {|md|
+   system("./gauzeloom.rb")
+}
+
+watch( 'lib/(.*).rb' )  {|md|
+   system("./gauzeloom.rb")
+}
+
+watch( 'lib/*/(.*).rb' )  {|md|
+   system("./gauzeloom.rb")
+}
