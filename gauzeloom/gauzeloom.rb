@@ -16,7 +16,7 @@ require_all "lib/**/*.rb"
 # activated. 
  
 
-[Side,Comb].each do |obj| 
+[Side,Comb,GuideComb,SideWall].each do |obj| 
 	save_all(obj)
 end
 
