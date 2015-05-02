@@ -1,14 +1,16 @@
 class GuideComb < CrystalScad::Printed
 	def initialize()
+		@length = 30
+		@width = 101
 		@height = 10
+
 		@fin_height = 50
 		@fin_position = 22
-		@width = 101
 	end
 
 	def part(show)
 		# sidewall
-		res = SideWall.new(height:@height,width:@width).part(show)
+		res = SideWall.new(length:@length,height:@height,width:@width).part(show)
 			
 		# Add a cube to act as "bottom", connecting fins and sidewall
 		res += cube([4,@width,@fin_height+4]).rotate(y:25).translate(x:-4,z:3)
@@ -22,7 +24,7 @@ class GuideComb < CrystalScad::Printed
 		# cut a bit of excess material on the top
 		res -= cube([4,@width,@fin_height]).translate(x:@fin_position,z:@height)
 
-		res
+		res.translate(x:@length)
 	end
 
 	def fin

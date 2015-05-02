@@ -1,7 +1,7 @@
 class SideWall < CrystalScad::Printed
 	
 	def initialize(args={})
-		@length = 30
+		@length = args[:length] || 30
 		@height = args[:height] || 10
 		@width = args[:width] || 101
 	end
