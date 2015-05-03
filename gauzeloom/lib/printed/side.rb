@@ -1,5 +1,5 @@
 class Side < CrystalScad::Printed
-	def initialize()
+	def initialize(args={})
 		@height = 7.5
 		@length = 110
 		@width = 25
@@ -23,7 +23,21 @@ class Side < CrystalScad::Printed
 
 		# I'm skipping the side mouting holes which was on the original model because they were not used
 
+		res -= nylon_channel.rotate(x:-90).translate(x:105,y:0,z:@height)
+		
+		# thread fixation point
+		res -= fixation_point.translate(x:6,y:7,z:-0.1)
+
 		[-1,1].each do |i|
+			# Big slot cutout
+			res -= cube([106,5,@height]).center_y.translate(x:@big_slot_offset_from_bottom,y:@big_slot_offset_from_center*i, z:3)
+			
+			# Inner slot cutout
+			res -= cube([85,3.5,@height]).center_y.translate(x:@big_slot_offset_from_bottom+2,y:@big_slot_offset_from_center*i, z:-0.1)
+
+
+			res = colorize(res)			
+
 			# Bottom mounting holes
 
 			b = Bolt.new(3,16,washer:true).rotate(y:-90).translate(x:@bottom_mounting_plate_length,y:32*i,z:@height/2.0)	
@@ -35,20 +49,9 @@ class Side < CrystalScad::Printed
 				b = Bolt.new(4,10).mirror(z:1).translate(x:@side_mouting_bolts_offset_from_bottom+j,y:@side_mouting_bolts_offset_from_center*i,z:@height)	
 				res += b.show if show
 				res -= b.output
-			end
-
-			# Big slot cutout
-			res -= cube([106,5,@height]).center_y.translate(x:@big_slot_offset_from_bottom,y:@big_slot_offset_from_center*i, z:3)
-			
-			# Inner slot cutout
-			res -= cube([85,3.5,@height]).center_y.translate(x:@big_slot_offset_from_bottom+2,y:@big_slot_offset_from_center*i, z:-0.1)
-		
+			end		
 		end
 
-		res -= nylon_channel.rotate(x:-90).translate(x:105,y:0,z:@height)
-		
-		# thread fixation point
-		res -= fixation_point.translate(x:6,y:7,z:-0.1)
 		
 		res
 	end
@@ -79,42 +82,3 @@ class Side < CrystalScad::Printed
 
 end	
 
-=begin
-
-difference(){
-union(){
-translate([-14,55,7.5])cube([110,7,25],true);
-translate([16,55,7.5])cube([50,7,45],true);
-translate([40,55,7.5])cube([3,7,75],true);
-
-}
-translate([20,55,-20])rotate([0,0,45/2])cylinder(r=1.65,h=30,$fn=8,center=true);
-translate([5,55,-20])rotate([0,0,45/2])cylinder(r=1.65,h=30,$fn=8,center=true);
-translate([20,55,35])rotate([0,0,45/2])cylinder(r=1.65,h=30,$fn=8,center=true);
-translate([5,55,35])rotate([0,0,45/2])cylinder(r=1.65,h=30,$fn=8,center=true);
-translate([35,55,-25])rotate([0,90,0])rotate([0,0,45/2])cylinder(r=1.75,h=30,$fn=8,center=true);
-translate([35,55,40])rotate([0,90,0])rotate([0,0,45/2])cylinder(r=1.75,h=30,$fn=8,center=true);
-translate([12.5,55,-10])rotate([90,0,0])rotate([0,0,45/2])cylinder(r=1.95,h=30,$fn=8,center=true);
-translate([-2.5,55,-10])rotate([90,0,0])rotate([0,0,45/2])cylinder(r=1.95,h=30,$fn=8,center=true);
-translate([12.5,55,25])rotate([90,0,0])rotate([0,0,45/2])cylinder(r=1.95,h=30,$fn=8,center=true);
-translate([-2.5,55,25])rotate([90,0,0])rotate([0,0,45/2])cylinder(r=1.95,h=30,$fn=8,center=true);
-translate([-27,53.1,0])cube([106,5,6],true);
-translate([-27,53.1,15])cube([106,5,6],true);
-translate([-20,56.1,0])cube([85,5,3.5],true);
-translate([-20,56.1,15])cube([85,5,3.5],true);
-translate([-66,58.1,15]){rotate([-65,0,0])rotate([0,0,45/2])cylinder(r=1,h=30,$fn=8,center=true);
-translate([0,0,-15])rotate([65,0,0])rotate([0,0,45/2])cylinder(r=1,h=30,$fn=8,center=true);
-translate([0,-7,-10])rotate([0,0,0])rotate([0,0,45/2])cylinder(r=1,h=15,$fn=8,center=true);
-translate([0,-3,-19])rotate([-25,0,0])cube([1.2,15,10],true);
-translate([0,-3,4])rotate([25,0,0])cube([1.2,15,10],true);
-}
-
-translate([28,58.1,15]){rotate([-65,0,0])rotate([0,0,45/2])cylinder(r=1,h=30,$fn=8,center=true);
-translate([6,-1,-24.5])cube([1.2,15,20],true);
-translate([2,-1,-15])cube([1.2,15,8],true);
-translate([4,-1,-15])cube([4.2,15,1.2],true);
-translate([0,-13,10])rotate([25,0,0])cube([1.2,35,30
-],true);
-}
-}
-=end

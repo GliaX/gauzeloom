@@ -25,6 +25,7 @@ class GuideComb < CrystalScad::Printed
 		res -= cube([4,@width,@fin_height]).translate(x:@fin_position,z:@height)
 
 		res.translate(x:@length)
+		colorize(res)
 	end
 
 	def fin
