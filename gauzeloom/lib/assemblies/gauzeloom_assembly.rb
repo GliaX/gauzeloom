@@ -8,6 +8,8 @@ class GauzeloomAssembly < CrystalScad::Assembly
 
 		res += GuideComb.new.color("OldLace").output.rotate(x:90).rotate(y:-90).mirror(x:1).translate(y:-12.5,z:21.5)
 
+		res += Shuttle.new.show.rotate(z:90).translate(x:90,y:-28,z:78.5)
+
 	end
 
 end

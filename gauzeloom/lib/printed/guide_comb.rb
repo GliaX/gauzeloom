@@ -31,6 +31,7 @@ class GuideComb < CrystalScad::Printed
 	def fin
 		res = square([60,3])
 		res += polygon(points:[[0,3],[@fin_position,0],[@fin_position,@fin_height]])			
+		res += polygon(points:[[0,3],[@fin_position,0],[@fin_position,@fin_height]]).mirror(x:1).translate(x:50+4)
 		res -= circle(d:26,fn:8).rotate(z:22.5).translate(x:@fin_position+5,y:16)
 		res.linear_extrude(h:1).rotate(x:90)
 	end
