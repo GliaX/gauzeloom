@@ -6,34 +6,60 @@ class GuideComb < CrystalScad::Printed
 
 		@fin_height = 50
 		@fin_position = 22
+
+		@side_wall_length = 20
+		
+		@hardware = []
+		@transformations = []
+		@color = "OldLace"
+	end
+
+	def assembly_position
+		self.rotate(x:90).rotate(y:-90).mirror(x:1).translate(y:-12.5,z:21.5+@length)
 	end
 
 	def part(show)
 		# sidewall
-		res = SideWall.new(length:@length,height:@height,width:@width).part(show)
+		res = SideWall.new(length:@length,height:@height,width:@width).part(show) unless @disable_side_wall # leave it out for TopComb
 			
-		# Add a cube to act as "bottom", connecting fins and sidewall
-		res += cube([4,@width,@fin_height+4]).rotate(y:25).translate(x:-4,z:3)
-
 		# fins
 		(0..40).each do |i|
 			res += fin.translate(y:i*2.5+1)	
 		end
-		
+	
+		# add side walls in the shape of fins
+		res += fin(@side_wall_length).translate(y:0)		
+		res += fin(@side_wall_length).translate(y:@width+@side_wall_length)		
+		@hardware << Bolt.new(4,30).rotate(y:-90).translate(x:30,y:-@side_wall_length/2.0,z:@fin_height-10)
+		@hardware << Bolt.new(4,30).rotate(y:-90).translate(x:30,y:@width+@side_wall_length/2.0,z:@fin_height-10)
+
+		@hardware << Nut.new(4,height:7).rotate(y:-90).translate(x:18,y:-@side_wall_length/2.0,z:@fin_height-10)
+		@hardware << Nut.new(4,height:7).rotate(y:-90).translate(x:18,y:@width+@side_wall_length/2.0,z:@fin_height-10)
+
+	
+		total_width = @width+@side_wall_length*2
+		# Add a cube to act as "bottom", connecting fins and sidewall
+		res += cube([4,total_width,@fin_height+4]).rotate(y:25).translate(x:-4,y:-@side_wall_length,z:3)
+
+		# as this cube doesn't connect all the way down, add another cube that does
+		res += cube([4,total_width,4]).translate(x:-4,y:-@side_wall_length)
 
 		# cut a bit of excess material on the top
-		res -= cube([4,@width,@fin_height]).translate(x:@fin_position,z:@height)
+		res -= cube([4,total_width,@fin_height]).translate(x:@fin_position,y:-@side_wall_length,z:@height)
 
-		res.translate(x:@length)
-		colorize(res)
+
+		res -= @hardware
+		res = colorize(res)
+		
+
+		res
 	end
 
-	def fin
+	def fin(height=1)
 		res = square([60,3])
 		res += polygon(points:[[0,3],[@fin_position,0],[@fin_position,@fin_height]])			
-		res += polygon(points:[[0,3],[@fin_position,0],[@fin_position,@fin_height]]).mirror(x:1).translate(x:50+4)
 		res -= circle(d:26,fn:8).rotate(z:22.5).translate(x:@fin_position+5,y:16)
-		res.linear_extrude(h:1).rotate(x:90)
+		res.linear_extrude(h:height).rotate(x:90)
 	end
 
 end	
