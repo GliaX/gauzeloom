@@ -15,10 +15,5 @@ require_all "lib/**/*.rb"
 # Design -> Automatic Reload and Compile 
 # activated. 
  
-
-[Side,Comb,GuideComb,TopComb,SideWall,Shuttle,GauzeloomAssembly,Solenoid].each do |obj| 
-	save_all(obj)
-end
-
-@@bom.save("bom.txt")
+save!
 
