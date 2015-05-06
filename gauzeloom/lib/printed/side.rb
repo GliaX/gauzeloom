@@ -16,6 +16,7 @@ class Side < CrystalScad::Printed
 
 		@big_slot_offset_from_center = 7.5
 		@big_slot_offset_from_bottom = 15.5
+		@hardware = []
 	end
 
 	def part(show)
@@ -41,13 +42,13 @@ class Side < CrystalScad::Printed
 			# Bottom mounting holes
 
 			b = Bolt.new(3,16,washer:true).rotate(y:-90).translate(x:@bottom_mounting_plate_length,y:32*i,z:@height/2.0)	
-			res += b.show if show
+			@hardware << b				
 			res -= b.output
 		
 			# Side mounting bolts
 			[0,@side_mouting_bolts_distance].each do |j|
 				b = Bolt.new(4,10).mirror(z:1).translate(x:@side_mouting_bolts_offset_from_bottom+j,y:@side_mouting_bolts_offset_from_center*i,z:@height)	
-				res += b.show if show
+				@hardware << b				
 				res -= b.output
 			end		
 		end
