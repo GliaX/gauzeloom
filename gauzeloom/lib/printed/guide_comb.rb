@@ -25,8 +25,8 @@ class GuideComb < CrystalScad::Printed
 		# sidewall
 		res = SideWall.new(length:@length,height:@height,width:@width).part(show)
 		res += fins_and_side_walls			
-		@hardware << Bolt.new(5,20).rotate(y:-90).translate(x:32.5,y:-@side_wall_length/2.0,z:@fin_height-10)
-		@hardware << Bolt.new(5,20).rotate(y:-90).translate(x:32.5,y:@width+@side_wall_length/2.0,z:@fin_height-10)
+		@hardware << Bolt.new(5,30).rotate(y:-90).translate(x:40,y:-@side_wall_length/2.0,z:@fin_height-10)
+		@hardware << Bolt.new(5,30).rotate(y:-90).translate(x:40,y:@width+@side_wall_length/2.0,z:@fin_height-10)
 
 		@hardware << Nut.new(5,height:7).rotate(y:-90).translate(x:18,y:-@side_wall_length/2.0,z:@fin_height-10)
 		@hardware << Nut.new(5,height:7).rotate(y:-90).translate(x:18,y:@width+@side_wall_length/2.0,z:@fin_height-10)
