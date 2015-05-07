@@ -22,6 +22,10 @@ class TopComb < GuideComb
 		res += cube(10.5,@side_wall_length,z=20).translate(x:@fin_position,y:-@side_wall_length,z:@fin_height-z)		
 		res += cube(10.5,@side_wall_length,z=20).translate(x:@fin_position,y:@width,z:@fin_height-z)		
 
+		# remove a bit from the bottom
+		res -= cube(@length+0.1,@total_width+0.2,3+0.1).translate(x:-4-0.1,y:-@side_wall_length-0.1,z:-0.1)
+		
+
 		res -= @hardware
 		res = colorize(res)
 		if !show
