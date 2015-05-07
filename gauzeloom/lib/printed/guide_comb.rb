@@ -8,6 +8,9 @@ class GuideComb < CrystalScad::Printed
 		@fin_position = 22
 
 		@side_wall_length = 20
+
+		
+		@total_width = @width+@side_wall_length*2
 		
 		@hardware = []
 		@transformations = []
@@ -20,8 +23,30 @@ class GuideComb < CrystalScad::Printed
 
 	def part(show)
 		# sidewall
-		res = SideWall.new(length:@length,height:@height,width:@width).part(show) unless @disable_side_wall # leave it out for TopComb
-			
+		res = SideWall.new(length:@length,height:@height,width:@width).part(show)
+		res += fins_and_side_walls			
+		@hardware << Bolt.new(5,20).rotate(y:-90).translate(x:32.5,y:-@side_wall_length/2.0,z:@fin_height-10)
+		@hardware << Bolt.new(5,20).rotate(y:-90).translate(x:32.5,y:@width+@side_wall_length/2.0,z:@fin_height-10)
+
+		@hardware << Nut.new(5,height:7).rotate(y:-90).translate(x:18,y:-@side_wall_length/2.0,z:@fin_height-10)
+		@hardware << Nut.new(5,height:7).rotate(y:-90).translate(x:18,y:@width+@side_wall_length/2.0,z:@fin_height-10)
+
+		# as this cube doesn't connect all the way down, add another cube that does
+		res += cube([4,@total_width,4]).translate(x:-4,y:-@side_wall_length)
+
+		# cut a bit of excess material on the top
+		res -= cube([4,@total_width,@fin_height]).translate(x:@fin_position,y:-@side_wall_length,z:@height)
+
+		
+		res -= @hardware 
+		res = colorize(res)
+		
+
+		res
+	end
+
+	def fins_and_side_walls
+		res = nil
 		# fins
 		(0..40).each do |i|
 			res += fin.translate(y:i*2.5+1)	
@@ -30,27 +55,8 @@ class GuideComb < CrystalScad::Printed
 		# add side walls in the shape of fins
 		res += fin(@side_wall_length).translate(y:0)		
 		res += fin(@side_wall_length).translate(y:@width+@side_wall_length)		
-		@hardware << Bolt.new(4,30).rotate(y:-90).translate(x:30,y:-@side_wall_length/2.0,z:@fin_height-10)
-		@hardware << Bolt.new(4,30).rotate(y:-90).translate(x:30,y:@width+@side_wall_length/2.0,z:@fin_height-10)
-
-		@hardware << Nut.new(4,height:7).rotate(y:-90).translate(x:18,y:-@side_wall_length/2.0,z:@fin_height-10)
-		@hardware << Nut.new(4,height:7).rotate(y:-90).translate(x:18,y:@width+@side_wall_length/2.0,z:@fin_height-10)
-
-	
-		total_width = @width+@side_wall_length*2
 		# Add a cube to act as "bottom", connecting fins and sidewall
-		res += cube([4,total_width,@fin_height+4]).rotate(y:25).translate(x:-4,y:-@side_wall_length,z:3)
-
-		# as this cube doesn't connect all the way down, add another cube that does
-		res += cube([4,total_width,4]).translate(x:-4,y:-@side_wall_length)
-
-		# cut a bit of excess material on the top
-		res -= cube([4,total_width,@fin_height]).translate(x:@fin_position,y:-@side_wall_length,z:@height)
-
-
-		res -= @hardware
-		res = colorize(res)
-		
+		res += cube([4,@total_width,@fin_height+4]).rotate(y:25).translate(x:-4,y:-@side_wall_length,z:3)
 
 		res
 	end
