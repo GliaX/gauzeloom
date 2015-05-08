@@ -1,4 +1,6 @@
 class GuideComb < CrystalScad::Printed
+	attr_accessor :length
+
 	def initialize()
 		@length = 30
 		@width = 101
@@ -7,9 +9,11 @@ class GuideComb < CrystalScad::Printed
 		@fin_height = 50
 		@fin_position = 22
 
+		@shuttle_position_x = @fin_position + 5
+		@shuttle_position_z = 16
+	
 		@side_wall_length = 20
 
-		
 		@total_width = @width+@side_wall_length*2
 		
 		@hardware = []
@@ -17,8 +21,8 @@ class GuideComb < CrystalScad::Printed
 		@color = "OldLace"
 	end
 
-	def assembly_position
-		self.rotate(x:90).rotate(y:-90).mirror(x:1).translate(y:-12.5,z:21.5+@length)
+	def comb_center
+		{x:@shuttle_position_x,y:-90,z:@shuttle_position_z}
 	end
 
 	def part(show)
@@ -64,7 +68,7 @@ class GuideComb < CrystalScad::Printed
 	def fin(height=1)
 		res = square([60,3])
 		res += polygon(points:[[0,3],[@fin_position,0],[@fin_position,@fin_height]])			
-		res -= circle(d:26,fn:8).rotate(z:22.5).translate(x:@fin_position+5,y:16)
+		res -= circle(d:26,fn:8).rotate(z:22.5).translate(x:@shuttle_position_x,y:@shuttle_position_z)
 		res.linear_extrude(h:height).rotate(x:90)
 	end
 

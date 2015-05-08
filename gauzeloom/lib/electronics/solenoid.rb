@@ -4,7 +4,9 @@ class Solenoid < CrystalScad::Assembly
 	view [:base, :shaft, :frame]
 
 	def initialize(args={})
+		@x = 86
 		@y = 20
+		@height = 23		
 		@base_height = 44
 
 		@pos = args[:pos] || 0
@@ -40,17 +42,18 @@ class Solenoid < CrystalScad::Assembly
 		
 	def frame
 		# omitting the corners being angled
-		res = cube([x=86,@y,1.5])
-		res += cube([1.5,@y,23]) 
-
-		res -= long_slot(d:5.6,h:5,l:11).translate(x:14,y:@y/2.0,z:-1)
-		res -= cylinder(d:7,h:5).translate(x:25,y:@y/2.0,z:-1)
-
-		res -= long_slot(d:4.9,h:5,l:22).translate(x:35,y:@y/2.0,z:-1)
-
-		res -= cylinder(d:3.2,h:5).translate(x:x-3.5,y:y/2.0,z:-1)
+		res = cube([@x,@y,1.5])
+		res += cube([1.5,@y,@height]) 
+		res -= cut
+		res -= cylinder(d:3.2,h:5).translate(x:@x-3.5,y:y/2.0,z:-1)
 	
 		res.color("Gainsboro")
+	end
+
+	def cut
+		res = long_slot(d:5.6,h:5,l:11).translate(x:14,y:@y/2.0,z:-1)
+		res += cylinder(d:7,h:5).translate(x:25,y:@y/2.0,z:-1)
+		res += long_slot(d:4.9,h:5,l:22).translate(x:35,y:@y/2.0,z:-1)
 	end
 
 end

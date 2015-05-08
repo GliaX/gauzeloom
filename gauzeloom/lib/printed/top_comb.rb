@@ -5,6 +5,10 @@ class TopComb < GuideComb
 		@color = "Aqua"
 	end
 
+	def assembly_position # for Guidecomb Assembly
+		self.mirror(x:1).translate(x:@fin_height+4.5)
+	end
+
 	def part(show)
 		res = fins_and_side_walls			
 		#res -= cube([@length+4,@total_width,3]).translate(x:-4,y:-@side_wall_length)
@@ -33,10 +37,6 @@ class TopComb < GuideComb
 		end			
 
 		res
-	end
-
-	def assembly_position
-		self.rotate(x:90).rotate(y:-90).mirror(x:1).mirror(z:1).translate(y:-12.5,z:21+@length+55)
 	end
 
 	def fin(height=1)

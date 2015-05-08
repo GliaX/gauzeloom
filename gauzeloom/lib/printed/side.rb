@@ -17,6 +17,7 @@ class Side < CrystalScad::Printed
 		@big_slot_offset_from_center = 7.5
 		@big_slot_offset_from_bottom = 15.5
 		@hardware = []
+		@color = "MediumAquamarine"
 	end
 
 	def part(show)
