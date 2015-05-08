@@ -21,7 +21,7 @@ class GuideComb < CrystalScad::Printed
 	end
 
 	def comb_center
-		{x:@shuttle_position_x,y:-90,z:@shuttle_position_z}
+		{x:@shuttle_position_x,z:@shuttle_position_z}
 	end
 
 	def part(show)
