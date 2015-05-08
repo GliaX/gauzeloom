@@ -4,7 +4,7 @@ class Side < CrystalScad::Printed
 		@length = 110
 		@width = 25
 		
-		@side_mounting_plate_length = 50
+		@side_mounting_plate_length = 47
 		@side_mounting_plate_width = 45
 
 		@side_mouting_bolts_offset_from_center = 35.0/2.0
@@ -52,7 +52,6 @@ class Side < CrystalScad::Printed
 				res -= b.output
 			end		
 		end
-
 		
 		res
 	end
@@ -70,8 +69,7 @@ class Side < CrystalScad::Printed
 		res = cylinder(d:2,h:h)
 		res += cylinder(d:2,h:h2).translate(z:-@big_slot_offset_from_center*2).rotate(x:65)
 		res += cylinder(d:2,h:h2).translate(z:-@big_slot_offset_from_center*2).rotate(x:-65).translate(z:h)
-		res.translate(z:-h/2.0)
-	
+		res.translate(z:-h/2.0)	
 	end
 
 	def fixation_point
