@@ -1,5 +1,4 @@
 class GuideComb < CrystalScad::Printed
-	attr_accessor :length
 
 	def initialize()
 		@length = 30

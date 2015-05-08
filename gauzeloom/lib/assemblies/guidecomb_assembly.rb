@@ -8,7 +8,6 @@ class GuidecombAssembly < CrystalScad::Assembly
 		@shuttle = Shuttle.new.translate(@guidecomb.comb_center)
 
 		@solenoid_mount1 = SolenoidMount.new(pos:18).center.rotate(z:90).rotate(y:90).translate(@guidecomb.comb_center)
-
 	end
 
 	def assembly_position
