@@ -6,6 +6,9 @@ class SolenoidMount < CrystalScad::Printed
 		@z = 6
 		@color = "Indigo"
 		@solenoid = Solenoid.new(pos:@pos).translate(z:@z)
+		@guidecomb = GuideComb.new	
+		@guidecomb.show
+
 		@distance_to_comb = 30		
 		@x = @solenoid.x + @distance_to_comb
 		@y = @solenoid.y
@@ -15,6 +18,7 @@ class SolenoidMount < CrystalScad::Printed
 		@tunnel_height = 50
 		@tunnel_outside_margin = 8
 		@solenoid_center_z = (@z+@solenoid.height/2.0)
+		@hardware = []
 	end
 
 	def move_y
@@ -34,9 +38,17 @@ class SolenoidMount < CrystalScad::Printed
 		res = colorize(res)		
 		res += 	@solenoid if show
 		res -= @solenoid.cut
-
+		# rotate and center to shuttle = 0
+		res = res.rotate(x:90).rotate(z:90).translate(x:-@solenoid_center_z-@shuttle_offset,y:-@x,z:-@y/2.0)
+	
+		@guidecomb.side_mount_nuts.each do |nut|
+			@hardware << nut.bolt(25).translate(y:@guidecomb.side_wall_length).translate(@guidecomb.comb_center(-1))
+		#,y:-1,z:-13.25
+		end
+		res += @hardware		
+	
 		if !show
-			res.rotate(y:90)		
+		#	res.rotate(y:90)		
 		end
 	
 		res

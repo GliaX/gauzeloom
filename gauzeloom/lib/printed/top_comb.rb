@@ -13,8 +13,8 @@ class TopComb < GuideComb
 		res = fins_and_side_walls			
 		#res -= cube([@length+4,@total_width,3]).translate(x:-4,y:-@side_wall_length)
 
-		@hardware << Bolt.new(5,30).rotate(y:90).translate(x:15,y:-@side_wall_length/2.0,z:@fin_height-10)
-		@hardware << Bolt.new(5,30).rotate(y:90).translate(x:15,y:@width+@side_wall_length/2.0,z:@fin_height-10)
+		@hardware << Bolt.new(5,30).rotate(y:90).translate(x:15,y:-@side_wall_length/2.0+3,z:@fin_height-10)
+		@hardware << Bolt.new(5,30).rotate(y:90).translate(x:15,y:@width+@side_wall_length/2.0-3,z:@fin_height-10)
 
 		# as this cube doesn't connect all the way down, add another cube that does
 		res += cube([4,@total_width,3]).translate(x:-4,y:-@side_wall_length)
