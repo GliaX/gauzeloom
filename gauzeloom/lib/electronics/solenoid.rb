@@ -8,7 +8,7 @@ class Solenoid < CrystalScad::Assembly
 		@y = 20
 		@height = 23		
 		@base_height = 44
-
+		@frame_height = 1.5
 		@pos = args[:pos] || 0
 
 		if @pos > 19
@@ -39,11 +39,15 @@ class Solenoid < CrystalScad::Assembly
 		bolt = Bolt.new(3,16).mirror(z:1).translate(z:11.5).rotate(y:90).translate(z:h-2.5)
 		res += bolt.show
 	end
+
+	def frame_cut
+		cube([@x,@y,@frame_height])
+	end
 		
 	def frame
 		# omitting the corners being angled
-		res = cube([@x,@y,1.5])
-		res += cube([1.5,@y,@height]) 
+		res = frame_cut
+		res += cube([@frame_height,@y,@height]) 
 		res -= cut
 		res -= cylinder(d:3.2,h:5).translate(x:@x-3.5,y:y/2.0,z:-1)
 	
