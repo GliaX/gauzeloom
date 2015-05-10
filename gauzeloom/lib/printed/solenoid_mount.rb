@@ -19,6 +19,7 @@ class SolenoidMount < CrystalScad::Printed
 		@tunnel_outside_margin = 8
 		@solenoid_center_z = (@z+@solenoid.height/2.0)
 		@hardware = []
+		@bolt_mount_height	 = 8
 	end
 
 	def move_y
@@ -42,13 +43,26 @@ class SolenoidMount < CrystalScad::Printed
 		res = res.rotate(x:90).rotate(z:90).translate(x:-@solenoid_center_z-@shuttle_offset,y:-@x,z:-@y/2.0)
 	
 		@guidecomb.side_mount_nuts.each do |nut|
-			@hardware << nut.bolt(25).translate(y:@guidecomb.side_wall_length).translate(@guidecomb.comb_center(-1))
-		#,y:-1,z:-13.25
+			@hardware << nut.bolt(16).translate(y:@guidecomb.side_wall_length).translate(@guidecomb.comb_center(-1))
 		end
-		res += @hardware		
+
+		# Mounts for the bolts
+		bolt1, bolt2 = @hardware		
+		bolt_mounts = long_slot(d:14,h:@bolt_mount_height,l:3).transform(bolt1)
+		bolt_mounts += long_slot(d:14,h:@bolt_mount_height,l:5).rotate(z:90).transform(bolt2)
+
+		res += colorize(bolt_mounts)
+
+		# since bolt1 makes the bolt collide with the flat surface, cut it
+		res -= cylinder(d:8,h:@tunnel_height-@bolt_mount_height).translate(z:-@tunnel_height+@bolt_mount_height).transform(bolt1)
+
+
+
+		res -= @hardware
+		res += @hardware if show
 	
 		if !show
-		#	res.rotate(y:90)		
+			res.rotate(x:-90)		
 		end
 	
 		res
