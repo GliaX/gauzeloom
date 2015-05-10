@@ -55,9 +55,9 @@ class Solenoid < CrystalScad::Assembly
 	end
 
 	def cut
-		res = long_slot(d:5.6,h:5,l:11).translate(x:14,y:@y/2.0,z:-1)
-		res += cylinder(d:7,h:5).translate(x:25,y:@y/2.0,z:-1)
-		res += long_slot(d:4.9,h:5,l:22).translate(x:35,y:@y/2.0,z:-1)
+		res = long_slot(d:5.6,h:10,l:11).translate(x:14,y:@y/2.0,z:-1)
+		res += cylinder(d:7,h:10).translate(x:25,y:@y/2.0,z:-1)
+		res += long_slot(d:4.9,h:10,l:22).translate(x:35,y:@y/2.0,z:-1)
 	end
 
 end
