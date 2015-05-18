@@ -9,9 +9,18 @@ class ChainElement < CrystalScad::Assembly
 		@margin = 0.7
 
 		@chain_x = @x + 7
-		@hinge = @chain_x - 5
+		@hinge = {x:@chain_x-5}
+			
 		@hardware = []	
 		@color = args[:color] || nil
+
+		@child = nil
+		@child_rotation = {}
+	end
+
+	def add_child(e,rotation={})
+		@child = e
+		@child_rotation = rotation
 	end
 
 	def part(show)
@@ -30,7 +39,11 @@ class ChainElement < CrystalScad::Assembly
 		res -= @hardware
 		res += @hardware if show
 		
-		res.translate(x:-@cut_x/2.0,z:-@height/2.0)
+		res = res.translate(x:-@cut_x/2.0,z:-@height/2.0)
+		if @child
+			res += @child.rotate(@child_rotation).translate(@hinge)
+		end 
+		transform(res)
 	end	
 
 end

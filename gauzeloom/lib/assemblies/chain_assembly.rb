@@ -2,10 +2,12 @@ class ChainAssembly < CrystalScad::Assembly
 	skip :output
 
 	def part(show)
-		@chain = ChainElement.new
-		res = @chain.show
-		res += ChainElement.new.translate(x:@chain.hinge).show
-		res += ChainElement.new(color:"pink").rotate(y:-50).translate(x:@chain.hinge*2).show
+		chain = Chain.new
+		chain.add(ChainElement,5)
+	#	chain.add(ChainElement,1,y:-40)
+	#	chain.add(ChainElement,1,y:-40)
+		
+		return chain.show		
 	end
 
 end
