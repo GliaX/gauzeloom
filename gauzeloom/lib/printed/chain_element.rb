@@ -1,4 +1,4 @@
-class Chain < CrystalScad::Assembly
+class ChainElement < CrystalScad::Assembly
 	
 	def initialize(args={})
 		@x = 25
